@@ -1,88 +1,70 @@
 package com.example.telegrambotshelter.handlerMain;
 
-
-import com.example.telegrambotshelter.cach.DataCache;
 import com.example.telegrambotshelter.cach.UserDataCache;
-import com.example.telegrambotshelter.service.ReplyMessagesService;
-import com.example.telegrambotshelter.service.locale.LocaleMessageService;
-import com.example.telegrambotshelter.utils.Emojis;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
 public class HandlerMain {
 
-    private final ReplyMessagesService replyMessagesService;
     private final HandlerMainCallbackQuery mainCallbackQuery;
     private final UserDataCache userDataCache;
     private final BotStateContext botStateContext;
 
-    public HandlerMain(ReplyMessagesService replyMessagesService, HandlerMainCallbackQuery mainCallbackQuery, UserDataCache userDataCache, BotStateContext botStateContext) {
-        this.replyMessagesService = replyMessagesService;
+    public HandlerMain(HandlerMainCallbackQuery mainCallbackQuery, UserDataCache userDataCache, BotStateContext botStateContext) {
         this.mainCallbackQuery = mainCallbackQuery;
         this.userDataCache = userDataCache;
         this.botStateContext = botStateContext;
     }
 
-    public SendMessage handleUpdate(Update update){
+    public List<PartialBotApiMethod<Message>> handleUpdate(Update update) {
 
-//        SendMessage message = replyMessagesService.getReplyMessage(update.getMessage().getChatId().toString()
-//                ,"reply.mainMenu.base"
-//                , Emojis.CRY);
+        List<PartialBotApiMethod<Message>> replyMessageArrayList = new ArrayList<>();
 
-        SendMessage replyMessage = null;
+        if (update.hasCallbackQuery()) {
+            log.info("New callbackQuery from User: {}, chatId: {}, with data: {}"
+                    , update.getCallbackQuery().getFrom().getUserName()
+                    , update.getCallbackQuery().getFrom().getId()
+                    , update.getCallbackQuery().getData());
 
-//        if (update.getCallbackQuery() != null) {
-//            log.info("New callbackQuery from User: {} with data: {}"
-//                    , update.getCallbackQuery().getFrom().getUserName()
-//                    , update.getCallbackQuery().getData());
-//            replyMessage = mainCallbackQuery.processCallbackQuery(update.getCallbackQuery());
-//
-//            return replyMessage;
-//        }
+            replyMessageArrayList.add(mainCallbackQuery.handleCallbackQueryMessage(update.getCallbackQuery()));
+        }
 
         if (update.getMessage() != null && update.getMessage().getText() != null) {
             log.info("New message from User:{}, chatId: {},  with text: {}"
                     , update.getMessage().getFrom().getUserName()
                     , update.getMessage().getChat().getId()
                     , update.getMessage().getText());
-            replyMessage = handleInputMessage(update.getMessage());
+
+            replyMessageArrayList.addAll(handleInputMessage(update.getMessage()));
         }
 
-        return replyMessage;
+        return replyMessageArrayList;
     }
 
-    public SendMessage handleInputMessage(Message message) {
+    public List<PartialBotApiMethod<Message>> handleInputMessage(Message message) {
+
         String inputText = message.getText();
         long userId = message.getChat().getId();
-        BotState botState;
-        SendMessage replyMessage;
 
         switch (inputText) {
-            case "/start":
-                botState = BotState.SHOW_MAIN_MENU;
-                break;
-            case "/info":
-                botState = BotState.SHOW_INFO_MENU;
-                break;
-            case "/help":
-                botState = BotState.SHOW_HELP_MENU;
-                break;
-
-            default:
-                botState = userDataCache.getUsersCurrentBotState(userId);
-                break;
+            case "/start" -> userDataCache.setUsersCurrentBotState(userId, BotState.SHOW_MAIN_MENU);
+            case "/info" -> userDataCache.setUsersCurrentBotState(userId, BotState.SHOW_INFO_MENU);
+            default -> userDataCache.getUsersCurrentBotState(userId);
         }
 
-        userDataCache.setUsersCurrentBotState(userId, botState);
+        List<PartialBotApiMethod<Message>> replyMessageList = botStateContext.processInputMessage(userDataCache.getUsersCurrentBotState(userId), message);
 
-        replyMessage = botStateContext.processInputMessage(botState, message);
-
-        return replyMessage;
+        return replyMessageList;
     }
+
 
 }

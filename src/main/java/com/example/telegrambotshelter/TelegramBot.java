@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -17,6 +18,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     private final BotConfig botConfig;
     private final HandlerMain handlerMain;
 
+
     public TelegramBot(BotConfig botConfig, HandlerMain handlerMain) {
         this.botConfig = botConfig;
         this.handlerMain = handlerMain;
@@ -24,23 +26,25 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        // We check if the update has a message and the message has text
-        if (update.hasMessage() && update.getMessage().hasText()) {
 
-            log.info("New message from User: {} with data: {}"
-                    , update.getMessage().getChat().getFirstName()
-                    , update.getMessage().getText());
 
-            SendMessage sendMessage = handlerMain.handleUpdate(update);
-
-            try {
-
-                execute(sendMessage); // Call method to send the message
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
+        handlerMain.handleUpdate(update).forEach(message -> {
+            if(message.getClass()==SendMessage.class){
+                try {
+                    execute((SendMessage) message);
+                } catch (TelegramApiException e) {
+                    log.error(e.getMessage());
+                }
+            } else if (message.getClass()==SendPhoto.class) {
+                try {
+                    execute((SendPhoto) message);
+                } catch (TelegramApiException e) {
+                    log.error(e.getMessage());
+                }
             }
-        }
+        });
     }
+
 
     @Override
     public String getBotUsername() {
@@ -51,6 +55,10 @@ public class TelegramBot extends TelegramLongPollingBot {
     public String getBotToken() {
         return botConfig.getBotToken();
     }
+
+
+
+
 
 
 }
