@@ -26,5 +26,4 @@ public class UserDataCache implements DataCache {
         return botState;
     }
 
-
 }
