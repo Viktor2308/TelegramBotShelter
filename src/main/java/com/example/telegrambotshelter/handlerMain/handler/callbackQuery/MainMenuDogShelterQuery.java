@@ -2,21 +2,24 @@ package com.example.telegrambotshelter.handlerMain.handler.callbackQuery;
 
 import com.example.telegrambotshelter.handlerMain.BotState;
 import com.example.telegrambotshelter.handlerMain.handler.InputHandlerQuery;
-import com.example.telegrambotshelter.service.DogsShelterMenuQueryService;
+import com.example.telegrambotshelter.service.dogShelter.MainMenuDogsShelterQueryService;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.Message;
+
+import java.util.List;
 
 @Component
-public class DogsShelterMenuQuery implements InputHandlerQuery {
+public class MainMenuDogShelterQuery implements InputHandlerQuery {
 
-    private final DogsShelterMenuQueryService dogsShelterMenuQueryService;
+    private final MainMenuDogsShelterQueryService dogsShelterMenuQueryService;
 
-    public DogsShelterMenuQuery(DogsShelterMenuQueryService dogsShelterMenuQueryService) {
+    public MainMenuDogShelterQuery(MainMenuDogsShelterQueryService dogsShelterMenuQueryService) {
         this.dogsShelterMenuQueryService = dogsShelterMenuQueryService;
     }
 
     @Override
-    public SendMessage handle(long chatId) {
+    public List<PartialBotApiMethod<Message>> handle(long chatId) {
         return dogsShelterMenuQueryService.getDogsShelterMenuQuery(chatId);
     }
 

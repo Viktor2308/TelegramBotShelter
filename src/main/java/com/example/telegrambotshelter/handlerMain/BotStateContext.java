@@ -5,7 +5,6 @@ import com.example.telegrambotshelter.handlerMain.handler.InputHandler;
 import com.example.telegrambotshelter.handlerMain.handler.InputHandlerQuery;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.*;
@@ -28,7 +27,7 @@ public class BotStateContext {
         return currentMessageHandler.handle(message);
     }
 
-    public SendMessage processInputMessage(BotState currentState, long chatId) {
+    public List<PartialBotApiMethod<Message>> processInputMessage(BotState currentState, long chatId) {
         InputHandlerQuery inputHandlerQuery = findMessageHandlerQuery(currentState);
         return inputHandlerQuery.handle(chatId);
     }

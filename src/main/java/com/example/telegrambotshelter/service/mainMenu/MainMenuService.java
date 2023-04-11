@@ -1,7 +1,9 @@
-package com.example.telegrambotshelter.service;
+package com.example.telegrambotshelter.service.mainMenu;
 
 
 import com.example.telegrambotshelter.entity.User;
+import com.example.telegrambotshelter.service.ReplyMessagesService;
+import com.example.telegrambotshelter.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
@@ -38,8 +40,9 @@ public class MainMenuService {
 
         if (userService.getUserByChatId(inputMessage.getChatId()) == null) {
             userService.save(new User(inputMessage.getChatId()));
-            InputFile inputFile = new InputFile(new File("C:\\Users\\User\\Downloads\\TelegramBotShelter\\src\\main\\resources\\img.png"));
-            SendPhoto sendPhoto = new SendPhoto(inputMessage.getChatId().toString(),inputFile);
+            InputFile inputFile = new InputFile(
+                    new File("C:\\Users\\User\\Downloads\\TelegramBotShelter\\src\\main\\resources\\img\\mainMenu.png"));
+            SendPhoto sendPhoto = new SendPhoto(inputMessage.getChatId().toString(), inputFile);
             final SendMessage helloUserMessage =
                     new SendMessage(inputMessage.getChatId().toString(),
                             replyMessagesService.getReplyText("reply.newUser.message"));
@@ -47,7 +50,6 @@ public class MainMenuService {
             mainMenuMessageList.add(sendPhoto);
             mainMenuMessageList.add(helloUserMessage);
         }
-
 
         final ReplyKeyboard keyboard = getMainMenuKeyboard();
         final SendMessage mainMenuMessage =
@@ -67,8 +69,8 @@ public class MainMenuService {
                 replyMessagesService.getEmojiReplyText("button.cat.shelter", CAT));
         InlineKeyboardButton buttonDogShelter = new InlineKeyboardButton(
                 replyMessagesService.getEmojiReplyText("button.dog.shelter", DOG));
-        buttonCatShelter.setCallbackData("/catsShelterMenu");
-        buttonDogShelter.setCallbackData("/dogsShelterMenu");
+        buttonCatShelter.setCallbackData("/SHOW_CAT_SHELTER_MENU");
+        buttonDogShelter.setCallbackData("/SHOW_DOG_SHELTER_MENU");
 
         buttons.add(buttonCatShelter);
         buttons.add(buttonDogShelter);
@@ -76,15 +78,11 @@ public class MainMenuService {
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
         keyboard.add(buttons);
 
-        final ReplyKeyboard replyKeyboard = new InlineKeyboardMarkup(keyboard);
-
-        return replyKeyboard;
+        return new InlineKeyboardMarkup(keyboard);
     }
 
 
-    private SendMessage createMessageWithKeyboard(final String chatId,
-                                                  String textMessage,
-                                                  final ReplyKeyboard keyboard) {
+    private SendMessage createMessageWithKeyboard(final String chatId, String textMessage, final ReplyKeyboard keyboard) {
         final SendMessage sendMessage = new SendMessage(chatId, textMessage);
         if (keyboard != null) {
             sendMessage.setReplyMarkup(keyboard);

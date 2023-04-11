@@ -1,7 +1,10 @@
-package com.example.telegrambotshelter.service;
+package com.example.telegrambotshelter.service.dogShelter;
 
+import com.example.telegrambotshelter.service.ReplyMessagesService;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -10,23 +13,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.telegrambotshelter.utils.Emojis.*;
-import static com.example.telegrambotshelter.utils.Emojis.BLUE_CAR;
 
 @Service
-public class DogsShelterMenuQueryService {
+public class MainMenuDogsShelterQueryService {
 
-  private final   ReplyMessagesService replyMessagesService;
+  private final ReplyMessagesService replyMessagesService;
 
-    public DogsShelterMenuQueryService(ReplyMessagesService replyMessagesService) {
+    public MainMenuDogsShelterQueryService(ReplyMessagesService replyMessagesService) {
         this.replyMessagesService = replyMessagesService;
     }
 
-    public SendMessage getDogsShelterMenuQuery(long chatId) {
-
+    public List<PartialBotApiMethod<Message>> getDogsShelterMenuQuery(long chatId) {
+        List<PartialBotApiMethod<Message>> partialBotApiMethodsList = new ArrayList<>();
         final ReplyKeyboard keyboard = getMainMenuKeyboard();
-        return createMessageWithKeyboard(chatId
-                , replyMessagesService.getEmojiReplyText("reply.DogShelterMenu.message",DOG)
-                , keyboard);
+        partialBotApiMethodsList.add(createMessageWithKeyboard(chatId
+                , replyMessagesService.getEmojiReplyText("reply.dog.shelter.menu.message",DOG)
+                , keyboard));
+        return partialBotApiMethodsList;
     }
 
     private ReplyKeyboard getMainMenuKeyboard() {
@@ -43,12 +46,12 @@ public class DogsShelterMenuQueryService {
         InlineKeyboardButton buttonDogMenuSendInfoDog = new InlineKeyboardButton(
                 replyMessagesService.getEmojiReplyText("button.dogMenu.sendInfoAboutDog.shelter", DOG_1));
         InlineKeyboardButton buttonMenuVolunteer = new InlineKeyboardButton(
-                replyMessagesService.getEmojiReplyText("button.menu.volunteer.shelter", BLUE_CAR));
+                replyMessagesService.getEmojiReplyText("button.menu.volunteer.shelter", BICYCLIST));
 
-        buttonDogMenuInfo.setCallbackData("/InfoDogShelter");
-        buttonDogMenuTakeDog.setCallbackData("/TakeDog");
-        buttonDogMenuSendInfoDog.setCallbackData("/SendReportAboutHomeDog");
-        buttonMenuVolunteer.setCallbackData("/CallVolunteer");
+        buttonDogMenuInfo.setCallbackData("/INFO_MENU_DOG_SHELTER");
+        buttonDogMenuTakeDog.setCallbackData("/TAKE_DOG");
+        buttonDogMenuSendInfoDog.setCallbackData("/SEND_REPORT_DOG");
+        buttonMenuVolunteer.setCallbackData("/CALL_VOLUNTEER");
 
         buttons1.add(buttonDogMenuInfo);
         buttons2.add(buttonDogMenuTakeDog);
@@ -65,7 +68,7 @@ public class DogsShelterMenuQueryService {
     }
 
 
-    private SendMessage createMessageWithKeyboard(final long chatId, String textMessage, final ReplyKeyboard keyboard) {
+    private SendMessage createMessageWithKeyboard(long chatId, String textMessage, final ReplyKeyboard keyboard) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setText(textMessage);
         sendMessage.setChatId(chatId);

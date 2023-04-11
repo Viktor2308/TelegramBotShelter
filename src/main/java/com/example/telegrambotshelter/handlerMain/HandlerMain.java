@@ -35,7 +35,7 @@ public class HandlerMain {
                     , update.getCallbackQuery().getFrom().getId()
                     , update.getCallbackQuery().getData());
 
-            replyMessageArrayList.add(mainCallbackQuery.handleCallbackQueryMessage(update.getCallbackQuery()));
+            replyMessageArrayList.addAll(mainCallbackQuery.handleCallbackQueryMessage(update.getCallbackQuery()));
         }
 
         if (update.getMessage() != null && update.getMessage().getText() != null) {
@@ -61,9 +61,7 @@ public class HandlerMain {
             default -> userDataCache.getUsersCurrentBotState(userId);
         }
 
-        List<PartialBotApiMethod<Message>> replyMessageList = botStateContext.processInputMessage(userDataCache.getUsersCurrentBotState(userId), message);
-
-        return replyMessageList;
+        return botStateContext.processInputMessage(userDataCache.getUsersCurrentBotState(userId), message);
     }
 
 

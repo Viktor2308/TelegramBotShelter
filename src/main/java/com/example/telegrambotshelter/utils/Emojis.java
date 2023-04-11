@@ -6,17 +6,22 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public enum Emojis {
-    CRY(EmojiParser.parseToUnicode(":cry:")),
+    SMILE(EmojiParser.parseToUnicode(":blush:")),
+    TRUMBSUP(EmojiParser.parseToUnicode(":thumbsup:")),
     CAT(EmojiParser.parseToUnicode(":cat2:")),
     CAT_1(EmojiParser.parseToUnicode(":cat:")),
     DOG(EmojiParser.parseToUnicode(":dog2:")),
     DOG_1(EmojiParser.parseToUnicode(":dog:")),
     ROBOT_FACE(EmojiParser.parseToUnicode(":robot_face:")),
     MALE_STUDENT(EmojiParser.parseToUnicode(":male_student:")),
-    BLUE_CAR(EmojiParser.parseToUnicode(":blue_car:")),
     INFORMATION_SOURCE(EmojiParser.parseToUnicode(":information_source:")),
-    NOTIFICATION_PRICE_DOWN(EmojiParser.parseToUnicode(":chart_with_downwards_trend:")),
-    HELP_MENU_WELCOME(EmojiParser.parseToUnicode(":hatched_chick:"));
+    COMPASS(EmojiParser.parseToUnicode(":compass:")),
+    AUTOMOBILE(EmojiParser.parseToUnicode(":oncoming_automobile:")),
+    PAGE_FACING_UP(EmojiParser.parseToUnicode(":page_facing_up:")),
+    BICYCLIST(EmojiParser.parseToUnicode(":bicyclist:")),
+    CLOCK_3(EmojiParser.parseToUnicode(":clock3:")),
+    ARROW_DOUBLE(EmojiParser.parseToUnicode(":arrow_double_down:")),
+    TELEPHONE_RECEIVER(EmojiParser.parseToUnicode(":telephone_receiver:"));
 
     private final String emojiName;
 

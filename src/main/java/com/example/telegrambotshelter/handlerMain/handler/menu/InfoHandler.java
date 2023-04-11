@@ -2,7 +2,7 @@ package com.example.telegrambotshelter.handlerMain.handler.menu;
 
 import com.example.telegrambotshelter.handlerMain.BotState;
 import com.example.telegrambotshelter.handlerMain.handler.InputHandler;
-import com.example.telegrambotshelter.service.InfoServise;
+import com.example.telegrambotshelter.service.mainMenu.InfoServise;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Message;

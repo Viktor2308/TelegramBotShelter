@@ -13,8 +13,12 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(name = "chat_id", nullable = false, unique = true)
     private long chatId;
+
+    @Column(name = "phone")
+    private int phoneNumber;
 
     public User(long chatId) {
         this.chatId = chatId;

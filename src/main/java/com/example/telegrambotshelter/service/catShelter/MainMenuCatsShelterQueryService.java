@@ -1,7 +1,10 @@
-package com.example.telegrambotshelter.service;
+package com.example.telegrambotshelter.service.catShelter;
 
+import com.example.telegrambotshelter.service.ReplyMessagesService;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -12,20 +15,21 @@ import java.util.List;
 import static com.example.telegrambotshelter.utils.Emojis.*;
 
 @Service
-public class CatsShelterMenuQueryService {
+public class MainMenuCatsShelterQueryService {
 
     private final ReplyMessagesService replyMessagesService;
 
-    public CatsShelterMenuQueryService(ReplyMessagesService replyMessagesService) {
+    public MainMenuCatsShelterQueryService(ReplyMessagesService replyMessagesService) {
         this.replyMessagesService = replyMessagesService;
     }
 
-    public SendMessage getCatsShelterMenuQuery(long chatId) {
-
+    public List<PartialBotApiMethod<Message>> getCatsShelterMenuQuery(long chatId) {
+        List<PartialBotApiMethod<Message>> partialBotApiMethodsList = new ArrayList<>();
         final ReplyKeyboard keyboard = getMainMenuKeyboard();
-        return createMessageWithKeyboard(chatId
-                , replyMessagesService.getEmojiReplyText("reply.CatShelterMenu.message", CAT)
-                , keyboard);
+        partialBotApiMethodsList.add(createMessageWithKeyboard(chatId
+                , replyMessagesService.getEmojiReplyText("reply.сat.shelter.menu.message", CAT)
+                , keyboard));
+        return partialBotApiMethodsList;
     }
 
     private ReplyKeyboard getMainMenuKeyboard() {
@@ -36,18 +40,18 @@ public class CatsShelterMenuQueryService {
         List<InlineKeyboardButton> buttons4 = new ArrayList<>();
 
         InlineKeyboardButton buttonCatMenuInfo = new InlineKeyboardButton(
-                replyMessagesService.getEmojiReplyText("button.catMenu.info.shelter", INFORMATION_SOURCE));
+                replyMessagesService.getEmojiReplyText("button.cat.menu.info.shelter", INFORMATION_SOURCE));
         InlineKeyboardButton buttonCatMenuTakeCat = new InlineKeyboardButton(
-                replyMessagesService.getEmojiReplyText("button.catMenu.takeCat.shelter", CAT));
+                replyMessagesService.getEmojiReplyText("button.cat.menu.takeCat.shelter", CAT));
         InlineKeyboardButton buttonCatMenuSendInfoCat = new InlineKeyboardButton(
-                replyMessagesService.getEmojiReplyText("button.catMenu.sendInfoAboutCat.shelter", CAT_1));
+                replyMessagesService.getEmojiReplyText("button.cat.menu.sendInfoAboutCat.shelter", CAT_1));
         InlineKeyboardButton buttonMenuVolunteer = new InlineKeyboardButton(
-                replyMessagesService.getEmojiReplyText("button.menu.volunteer.shelter", BLUE_CAR));
+                replyMessagesService.getEmojiReplyText("button.menu.volunteer.shelter", BICYCLIST));
 
-        buttonCatMenuInfo.setCallbackData("/InfoCatChelter");
-        buttonCatMenuTakeCat.setCallbackData("/TakeCat");
-        buttonCatMenuSendInfoCat.setCallbackData("/SendReportAboutHomeCat");
-        buttonMenuVolunteer.setCallbackData("/CallVolunteer");
+        buttonCatMenuInfo.setCallbackData("/INFO_MENU_CAT_SHELTER");
+        buttonCatMenuTakeCat.setCallbackData("/TAKE_CAT");
+        buttonCatMenuSendInfoCat.setCallbackData("/SEND_REPORT_CAT");
+        buttonMenuVolunteer.setCallbackData("/CALL_VOLUNTEER");
 
         buttons1.add(buttonCatMenuInfo);
         buttons2.add(buttonCatMenuTakeCat);
