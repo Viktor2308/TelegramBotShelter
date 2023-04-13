@@ -6,7 +6,7 @@ It would be a plus, but not required, if you supplement the comments and functio
 
 ## User functionality
 
-Stage 0. Request definition
+### Stage 0. Request definition
 
 This is the entry point of the bot's communication with the user.
 
