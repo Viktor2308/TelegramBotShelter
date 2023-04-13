@@ -27,6 +27,9 @@ public class RequestsForFeedback {
     @Column(name = "phone")
     private String phoneNumber;
 
+    @Column(name = "status")
+    private Boolean isActive;
+
     public RequestsForFeedback(long chatId) {
         this.chatId = chatId;
         this.dateTime = LocalDateTime.now();

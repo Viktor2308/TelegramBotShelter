@@ -1,6 +1,7 @@
 package com.example.telegrambotshelter.handlerMain;
 
 import com.example.telegrambotshelter.cach.UserDataCache;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -13,17 +14,13 @@ import java.util.List;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class HandlerMain {
 
     private final HandlerMainCallbackQuery mainCallbackQuery;
     private final UserDataCache userDataCache;
     private final BotStateContext botStateContext;
 
-    public HandlerMain(HandlerMainCallbackQuery mainCallbackQuery, UserDataCache userDataCache, BotStateContext botStateContext) {
-        this.mainCallbackQuery = mainCallbackQuery;
-        this.userDataCache = userDataCache;
-        this.botStateContext = botStateContext;
-    }
 
     public List<PartialBotApiMethod<Message>> handleUpdate(Update update) {
 

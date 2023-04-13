@@ -35,6 +35,7 @@ public class BotStateContext {
     private InputHandler findMessageHandler(BotState currentState) {
         return inputHandler.get(currentState);
     }
+
     private InputHandlerQuery findMessageHandlerQuery(BotState currentState) {
         return inputHandlerQuery.get(currentState);
     }
