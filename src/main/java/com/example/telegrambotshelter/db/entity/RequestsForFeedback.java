@@ -1,4 +1,4 @@
-package com.example.telegrambotshelter.entity;
+package com.example.telegrambotshelter.db.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -18,8 +18,8 @@ public class RequestsForFeedback {
     @Column(name = "chat_id")
     private long chatId;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "user_name")
+    private String userName;
 
     @Column(name = "task_date_time", nullable = false)
     private LocalDateTime dateTime;
@@ -27,7 +27,7 @@ public class RequestsForFeedback {
     @Column(name = "phone")
     private String phoneNumber;
 
-    @Column(name = "status")
+    @Column(name = "is_active")
     private Boolean isActive;
 
     public RequestsForFeedback(long chatId) {
@@ -35,9 +35,9 @@ public class RequestsForFeedback {
         this.dateTime = LocalDateTime.now();
     }
 
-    public RequestsForFeedback(long chatId, String name, String phoneNumber) {
+    public RequestsForFeedback(long chatId, String userName, String phoneNumber) {
         this.chatId = chatId;
-        this.name = name;
+        this.userName = userName;
         this.phoneNumber = phoneNumber;
         this.dateTime = LocalDateTime.now();
     }

@@ -1,7 +1,7 @@
 package com.example.telegrambotshelter.controller;
 
-import com.example.telegrambotshelter.entity.Dog;
-import com.example.telegrambotshelter.service.repositoryServiceImpl.DogService;
+import com.example.telegrambotshelter.db.entity.Dog;
+import com.example.telegrambotshelter.db.DAO.DogDAOImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,10 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "API fo dog shelter")
 public class DogShelterController {
 
-    private final DogService dogService;
+    private final DogDAOImpl dogDAOImpl;
 
-    public DogShelterController(DogService dogShelterApiService) {
-        this.dogService = dogShelterApiService;
+    public DogShelterController(DogDAOImpl dogShelterApiService) {
+        this.dogDAOImpl = dogShelterApiService;
     }
 
     @GetMapping("/{id}")
@@ -35,8 +34,8 @@ public class DogShelterController {
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = Dog.class))),
             @ApiResponse(responseCode = "400", description = "The GET request parameters are either missing or invalid.")})
-    public Dog getById(@Parameter(description = "Dog ID") @PathVariable long id) {
-        return dogService.get(id);
+    public ResponseEntity<?> getById(@Parameter(description = "Dog ID") @PathVariable long id) {
+        return null;
     }
 
 

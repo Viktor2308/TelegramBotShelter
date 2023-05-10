@@ -1,9 +1,9 @@
 package com.example.telegrambotshelter.service.inputCallbackQueryServiceImpl;
 
-import com.example.telegrambotshelter.entity.RequestsForFeedback;
+import com.example.telegrambotshelter.db.entity.RequestsForFeedback;
 import com.example.telegrambotshelter.service.ReplyCallbackQueryService;
 import com.example.telegrambotshelter.service.locale.ReplyMessagesService;
-import com.example.telegrambotshelter.service.repositoryServiceImpl.RequestsForFeedbackService;
+import com.example.telegrambotshelter.db.DAO.RequestsForFeedbackDAOImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
@@ -23,7 +23,7 @@ import static com.example.telegrambotshelter.utils.Emojis.*;
 public class VolunteerQueryService implements ReplyCallbackQueryService {
 
     private final ReplyMessagesService replyMessagesService;
-    private final RequestsForFeedbackService requestsForFeedbackService;
+    private final RequestsForFeedbackDAOImpl requestsForFeedbackDAOImpl;
 
     @Override
     public List<PartialBotApiMethod<Message>> replayMessage(long chatId) {
@@ -35,7 +35,7 @@ public class VolunteerQueryService implements ReplyCallbackQueryService {
                 replyMessagesService.getEmojiReplyText("reply.volunteer.message", BICYCLIST));
         partialBotApiMethodsList.add(sendPhoto);
         partialBotApiMethodsList.add(sendInfoMessage);
-        requestsForFeedbackService.add(new RequestsForFeedback(chatId));
+        requestsForFeedbackDAOImpl.add(new RequestsForFeedback(chatId));
         return partialBotApiMethodsList;
 
     }

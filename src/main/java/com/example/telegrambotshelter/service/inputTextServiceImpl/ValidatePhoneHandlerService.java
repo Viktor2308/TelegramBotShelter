@@ -1,11 +1,11 @@
 package com.example.telegrambotshelter.service.inputTextServiceImpl;
 
 import com.example.telegrambotshelter.cach.UserDataCache;
-import com.example.telegrambotshelter.entity.RequestsForFeedback;
+import com.example.telegrambotshelter.db.entity.RequestsForFeedback;
 import com.example.telegrambotshelter.handlerMain.BotState;
 import com.example.telegrambotshelter.service.ReplyTextService;
 import com.example.telegrambotshelter.service.locale.ReplyMessagesService;
-import com.example.telegrambotshelter.service.repositoryServiceImpl.RequestsForFeedbackService;
+import com.example.telegrambotshelter.db.DAO.RequestsForFeedbackDAOImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
@@ -20,12 +20,12 @@ import java.util.List;
 public class ValidatePhoneHandlerService implements ReplyTextService {
 
     private final ReplyMessagesService replyMessagesService;
-    private final RequestsForFeedbackService requestsForFeedbackService;
+    private final RequestsForFeedbackDAOImpl requestsForFeedbackDAOImpl;
     private final UserDataCache userDataCache;
 
-    public ValidatePhoneHandlerService(ReplyMessagesService replyMessagesService, RequestsForFeedbackService requestsForFeedbackService, UserDataCache userDataCache) {
+    public ValidatePhoneHandlerService(ReplyMessagesService replyMessagesService, RequestsForFeedbackDAOImpl requestsForFeedbackDAOImpl, UserDataCache userDataCache) {
         this.replyMessagesService = replyMessagesService;
-        this.requestsForFeedbackService = requestsForFeedbackService;
+        this.requestsForFeedbackDAOImpl = requestsForFeedbackDAOImpl;
         this.userDataCache = userDataCache;
     }
 
@@ -35,7 +35,7 @@ public class ValidatePhoneHandlerService implements ReplyTextService {
         String phoneNumber = inputMessage.getText();
         if(checkPhone(phoneNumber)){
             String phone = phoneNumber.replaceAll("[^0-9]", "");
-            requestsForFeedbackService.add(
+            requestsForFeedbackDAOImpl.add(
                     new RequestsForFeedback(inputMessage.getChatId(),inputMessage.getFrom().getUserName(),phone));
             partialBotApiMethods.add(new SendMessage(inputMessage.getChatId().toString(), replyMessagesService.getReplyText("reply.validate.phone.message")));
             userDataCache.setUsersCurrentBotState(inputMessage.getChatId(), BotState.SHOW_MAIN_MENU);
