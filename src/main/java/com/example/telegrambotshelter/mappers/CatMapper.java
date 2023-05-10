@@ -1,4 +1,4 @@
-package com.example.telegrambotshelter.mappers.cat;
+package com.example.telegrambotshelter.mappers;
 
 
 import com.example.telegrambotshelter.db.entity.Cat;
@@ -15,6 +15,15 @@ public class CatMapper {
                 catCreationDTO.getCatName(),
                 Integer.parseInt(catCreationDTO.getYearOfBirthday()),
                 catCreationDTO.getDescription()
+        );
+    }
+
+    public Cat fromDTO(CatDTO catDTO) {
+        return new Cat(
+                catDTO.getBreed(),
+                catDTO.getCatName(),
+                Integer.parseInt(catDTO.getYearOfBirthday()),
+                catDTO.getDescription()
         );
     }
 

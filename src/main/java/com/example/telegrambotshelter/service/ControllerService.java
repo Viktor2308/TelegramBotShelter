@@ -8,9 +8,9 @@ public interface ControllerService<T,K> {
 
     T create(K k);
 
-    T update(String id, T t);
+    T update(long id, K k);
 
-    List<T> getAll(T t);
+    List<T> getAll();
 
-    void delete(String id);
+    T delete(long id);
 }

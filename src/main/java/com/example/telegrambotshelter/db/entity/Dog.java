@@ -1,16 +1,21 @@
 package com.example.telegrambotshelter.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
-@Table(name = "dog")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = {"breed", "dogName", "yearOfBirthday", "description"})
+@ToString(of = {"id", "breed", "dogName", "yearOfBirthday", "description"})
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "dog")
 public class Dog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private long id;
     @Column(name = "breed")
     private String breed;
@@ -20,4 +25,11 @@ public class Dog {
     private int yearOfBirthday;
     @Column(name = "description")
     private String description;
+
+    public Dog(String breed, String dogName, int yearOfBirthday, String description) {
+        this.breed = breed;
+        this.dogName = dogName;
+        this.yearOfBirthday = yearOfBirthday;
+        this.description = description;
+    }
 }

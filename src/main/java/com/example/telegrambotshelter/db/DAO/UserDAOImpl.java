@@ -31,16 +31,16 @@ public class UserDAOImpl implements DAO<User> {
     }
 
     @Override
-    public void update(User user, long id) {
-
+    public User update(User user, long id) {
+        return null;
     }
 
     @Override
-    public void delete(User user) {
+    public void delete(long id) {
 
     }
 
-    public boolean existsByChatId(long id){
+    public boolean existsByChatId(long id) {
         return userRepositoryJPA.existsByChatId(id);
     }
 }

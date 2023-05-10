@@ -2,10 +2,10 @@ package com.example.telegrambotshelter.db.DAO;
 
 import com.example.telegrambotshelter.db.entity.Cat;
 import com.example.telegrambotshelter.db.repository.CatRepositoryJPA;
+import com.example.telegrambotshelter.exeption.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.lang.module.ResolutionException;
 import java.util.List;
 
 @Service
@@ -22,19 +22,30 @@ public class CatDAOImpl implements DAO<Cat> {
     @Override
     public Cat getById(long id) {
         return catRepositoryJPA.findById(id).orElseThrow(
-                () -> new ResolutionException("Cat with id " + id + " not found"));
+                () -> new ResourceNotFoundException("Cat with id " + id + " not found"));
     }
 
     @Override
     public List<Cat> getAll() {
-        return null;
+        return catRepositoryJPA.findAll();
     }
 
     @Override
-    public void update(Cat cat, long id) {
+    public Cat update(Cat cat, long id) {
+        if (catRepositoryJPA.existsById(id)) {
+            catRepositoryJPA.update(
+                    cat.getBreed(),
+                    cat.getCatName(),
+                    cat.getYearOfBirthday(),
+                    cat.getDescription(),
+                    id);
+        }
+        return catRepositoryJPA.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Cat with id " + id + " not found"));
     }
 
     @Override
-    public void delete(Cat cat) {
+    public void delete(long id) {
+        catRepositoryJPA.deleteById(id);
     }
 }

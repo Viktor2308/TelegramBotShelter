@@ -1,5 +1,6 @@
 package com.example.telegrambotshelter.controller;
 
+import com.example.telegrambotshelter.db.entity.Cat;
 import com.example.telegrambotshelter.dto.CatCreationDTO;
 import com.example.telegrambotshelter.dto.CatDTO;
 import com.example.telegrambotshelter.service.controllerService.CatShelterControllerService;
@@ -15,36 +16,74 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
-@RequestMapping("/cat")
+@RequestMapping
 @AllArgsConstructor
 public class CatShelterController {
 
     private final CatShelterControllerService controllerService;
 
-    @GetMapping(value = "/{id}")
+    @GetMapping("/cat/{id}")
     @Operation(summary = "Get a cat by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operation success", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = CatDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Not Found.", content = @Content)})
+            @ApiResponse(responseCode = "404", description = "Cat with id not found", content = @Content)})
     public CatDTO getById(@Parameter(description = "Cat ID") @PathVariable long id) {
         log.info("Get cat request, received: {}", id);
         return controllerService.getById(id);
     }
 
-    @PostMapping("/cat")
+    @PostMapping("/cat/")
     @Operation(summary = "Create Cat")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Successful Operation", content = @Content(
+            @ApiResponse(responseCode = "200", description = "Successful Operation", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = CatCreationDTO.class))),
+                    schema = @Schema(implementation = Cat.class))),
             @ApiResponse(responseCode = "400", description = "Not Found", content = @Content)})
-    public CatDTO createUser(@RequestBody @Valid CatCreationDTO catCreationDTO) {
-        log.info("Create user request received: {}", catCreationDTO);
+    public CatDTO createCat(@RequestBody @Valid CatCreationDTO catCreationDTO) {
+        log.info("Create cat request received: {}", catCreationDTO);
         return controllerService.create(catCreationDTO);
+    }
+
+    @PutMapping("/cat/")
+    @Operation(summary = "Update Cat")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful Operation", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = Cat.class))),
+            @ApiResponse(responseCode = "400", description = "Not Found", content = @Content)})
+    public CatDTO updateCat(@RequestBody long id ,@RequestBody @Valid CatCreationDTO catDTO) {
+        log.info("Update cat id:{} request received: {}",id, catDTO);
+        return controllerService.update(id,catDTO);
+    }
+
+    @DeleteMapping("/cat/{id}")
+    @Operation(summary = "Delete Cat by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful Operation", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = Cat.class))),
+            @ApiResponse(responseCode = "400", description = "Not Found", content = @Content)})
+    public CatDTO deleteCat(@Parameter(description = "Cat ID") @PathVariable long id) {
+        log.info("Delete cat by id: {}", id);
+        return controllerService.delete(id);
+    }
+
+    @GetMapping("/cat/")
+    @Operation(summary = "Get all a cat")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operation success", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = CatDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Cat with id not found", content = @Content)})
+    public List<CatDTO> getById() {
+        log.info("Get all cat request");
+        return controllerService.getAll();
     }
 }
 

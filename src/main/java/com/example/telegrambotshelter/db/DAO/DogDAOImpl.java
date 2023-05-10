@@ -2,10 +2,10 @@ package com.example.telegrambotshelter.db.DAO;
 
 import com.example.telegrambotshelter.db.entity.Dog;
 import com.example.telegrambotshelter.db.repository.DogRepositoryJPA;
+import com.example.telegrambotshelter.exeption.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.lang.module.ResolutionException;
 import java.util.List;
 
 @Service
@@ -22,7 +22,7 @@ public class DogDAOImpl implements DAO<Dog> {
     @Override
     public Dog getById(long id) {
         return dogRepositoryJPA.findById(id).orElseThrow(
-                () -> new ResolutionException("Dog with id " + id + " not found"));
+                () -> new ResourceNotFoundException("Dog with id " + id + " not found"));
     }
 
     @Override
@@ -31,12 +31,12 @@ public class DogDAOImpl implements DAO<Dog> {
     }
 
     @Override
-    public void update(Dog dog, long id) {
-
+    public Dog update(Dog dog, long id) {
+        return null;
     }
 
     @Override
-    public void delete(Dog dog) {
+    public void delete(long id) {
 
     }
 }

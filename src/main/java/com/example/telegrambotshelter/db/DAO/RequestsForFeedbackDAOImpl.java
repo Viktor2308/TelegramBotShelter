@@ -16,7 +16,7 @@ public class RequestsForFeedbackDAOImpl implements DAO<RequestsForFeedback> {
 
     @Override
     public RequestsForFeedback add(RequestsForFeedback requestsForFeedback) {
-       return requestsForFeedbackRepositoryJPA.save(requestsForFeedback);
+        return requestsForFeedbackRepositoryJPA.save(requestsForFeedback);
     }
 
     @Override
@@ -31,12 +31,12 @@ public class RequestsForFeedbackDAOImpl implements DAO<RequestsForFeedback> {
     }
 
     @Override
-    public void update(RequestsForFeedback requestsForFeedback, long id) {
-
+    public RequestsForFeedback update(RequestsForFeedback requestsForFeedback, long id) {
+        return null;
     }
 
     @Override
-    public void delete(RequestsForFeedback requestsForFeedback) {
+    public void delete(long id) {
 
     }
 

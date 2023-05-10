@@ -1,7 +1,6 @@
-package com.example.telegrambotshelter.service.repository;
+package com.example.telegrambotshelter.db.repository;
 
 import com.example.telegrambotshelter.db.entity.Cat;
-import com.example.telegrambotshelter.db.repository.CatRepositoryJPA;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +24,29 @@ class CatRepositoryJPATest {
     void catShouldBeSaved() {
         Cat savedCat = catRepositoryJPA.save(new Cat("TestBreed", "TestName", 2020, "Test"));
         assertThat(savedCat).isNotNull();
+        assertThat(savedCat.getCatName()).isEqualTo("TestName");
     }
 
-    @DisplayName("JUnit test should find no cats if repository is empty")
+    @DisplayName("JUnit test should find all cats in repository")
     @Test
     public void shouldFindNoCatsIfRepositoryIsEmpty() {
         List<Cat> cats = catRepositoryJPA.findAll();
-        assertThat(cats).isEmpty();
+        assertThat(cats).isNotEmpty();
     }
 
+    @DisplayName("JUnit test should update cat by ID")
     @Test
     void update() {
+        catRepositoryJPA.update(
+                "UpdateBreed",
+                "UpdateName",
+                2021,
+                "UpdateTest",
+                0);
+        Cat testCat = catRepositoryJPA.getReferenceById(0L);
+        assertThat(testCat.getBreed()).isEqualTo("UpdateBreed");
+        assertThat(testCat.getCatName()).isEqualTo("UpdateName");
+        assertThat(testCat.getDescription()).isEqualTo("UpdateTest");
     }
 
 }

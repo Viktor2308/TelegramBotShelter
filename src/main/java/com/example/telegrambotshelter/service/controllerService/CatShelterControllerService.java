@@ -3,7 +3,7 @@ package com.example.telegrambotshelter.service.controllerService;
 import com.example.telegrambotshelter.db.DAO.CatDAOImpl;
 import com.example.telegrambotshelter.dto.CatDTO;
 import com.example.telegrambotshelter.dto.CatCreationDTO;
-import com.example.telegrambotshelter.mappers.cat.CatMapper;
+import com.example.telegrambotshelter.mappers.CatMapper;
 import com.example.telegrambotshelter.service.ControllerService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,20 +26,24 @@ public class CatShelterControllerService implements ControllerService<CatDTO, Ca
     @Override
     public CatDTO create(CatCreationDTO catCreationDTO) {
         return mapper.toDTO(
-                catDAO.add(mapper.fromDTO(catCreationDTO))) ;
+                catDAO.add(mapper.fromDTO(catCreationDTO)));
     }
 
     @Override
-    public CatDTO update(String id, CatDTO catDto) {
-        return null;
+    public CatDTO update(long id, CatCreationDTO catDTO) {
+        return mapper.toDTO(
+                catDAO.update(mapper.fromDTO(catDTO), id));
     }
 
     @Override
-    public List<CatDTO> getAll(CatDTO catDto) {
-        return null;
+    public List<CatDTO> getAll() {
+        return catDAO.getAll().stream().map(mapper::toDTO).toList();
     }
 
     @Override
-    public void delete(String id) {
+    public CatDTO delete(long id) {
+        CatDTO catDTO = mapper.toDTO(catDAO.getById(id));
+        catDAO.delete(id);
+        return catDTO;
     }
 }
