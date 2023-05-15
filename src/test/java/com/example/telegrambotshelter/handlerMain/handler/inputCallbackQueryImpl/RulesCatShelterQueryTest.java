@@ -21,7 +21,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@DisplayName("Test Handler Query - ////")
+@DisplayName("Test Handler Query - RulesCatShelterQuery")
 @ExtendWith(MockitoExtension.class)
 class RulesCatShelterQueryTest {
     @Mock
