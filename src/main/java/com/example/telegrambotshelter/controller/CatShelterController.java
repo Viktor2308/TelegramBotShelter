@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,11 +23,12 @@ import java.util.List;
 @RestController
 @RequestMapping
 @AllArgsConstructor
+@Tag(name = "API fo cat shelter")
 public class CatShelterController {
 
     private final CatShelterControllerService controllerService;
 
-    @GetMapping("/cat/{id}")
+    @GetMapping("/api/cat/{id}")
     @Operation(summary = "Get a cat by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operation success", content = @Content(
@@ -38,7 +40,7 @@ public class CatShelterController {
         return controllerService.getById(id);
     }
 
-    @PostMapping("/cat/")
+    @PostMapping("/api/cat/")
     @Operation(summary = "Create Cat")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful Operation", content = @Content(
@@ -50,7 +52,7 @@ public class CatShelterController {
         return controllerService.create(catCreationDTO);
     }
 
-    @PutMapping("/cat/")
+    @PutMapping("/api/cat/")
     @Operation(summary = "Update Cat")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful Operation", content = @Content(
@@ -62,7 +64,7 @@ public class CatShelterController {
         return controllerService.update(id,catDTO);
     }
 
-    @DeleteMapping("/cat/{id}")
+    @DeleteMapping("/api/cat/{id}")
     @Operation(summary = "Delete Cat by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful Operation", content = @Content(
@@ -74,7 +76,7 @@ public class CatShelterController {
         return controllerService.delete(id);
     }
 
-    @GetMapping("/cat/")
+    @GetMapping("/api/cat/")
     @Operation(summary = "Get all a cat")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operation success", content = @Content(

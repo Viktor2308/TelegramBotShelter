@@ -1,4 +1,4 @@
-package com.example.telegrambotshelter.cach;
+package com.example.telegrambotshelter.cache;
 
 import com.example.telegrambotshelter.handlerMain.BotState;
 import org.springframework.stereotype.Service;

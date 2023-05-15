@@ -9,7 +9,6 @@ import org.hibernate.validator.constraints.Length;
 @Data
 @AllArgsConstructor
 public class CatCreationDTO {
-
     @NotBlank
     @Pattern(regexp = "^[\\p{L} .'-]+$", message = "Name must contain only letters a-z and A-Z")
     @Length(min = 2, max = 15, message = "Name length must be from 2 to 15")
