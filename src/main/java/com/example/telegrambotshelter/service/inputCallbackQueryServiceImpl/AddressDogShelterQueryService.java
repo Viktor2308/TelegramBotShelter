@@ -28,7 +28,7 @@ public class AddressDogShelterQueryService implements ReplyCallbackQueryService 
 
         List<PartialBotApiMethod<Message>> partialBotApiMethodsList = new ArrayList<>();
         InputFile inputFile = new InputFile(
-                new File("C:\\Users\\User\\Downloads\\TelegramBotShelter\\src\\main\\resources\\img\\addressDog.png"));
+                new File("src/main/resources/img/addressDog.png"));
         SendPhoto sendPhoto = new SendPhoto();
         sendPhoto.setChatId(chatId);
         sendPhoto.setPhoto(inputFile);

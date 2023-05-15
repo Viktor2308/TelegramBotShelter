@@ -11,6 +11,7 @@ import java.util.List;
 
 @Component
 public class InfoDogShelterQuery implements InputHandlerQuery {
+
     private final InfoDogShelterQueryService infoDogShelterQueryService;
 
     public InfoDogShelterQuery(InfoDogShelterQueryService infoDogShelterQueryService) {

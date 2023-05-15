@@ -1,6 +1,6 @@
 package com.example.telegrambotshelter.handlerMain;
 
-import com.example.telegrambotshelter.cach.UserDataCache;
+import com.example.telegrambotshelter.cache.UserDataCache;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -48,17 +48,8 @@ public class HandlerMain {
     }
 
     public List<PartialBotApiMethod<Message>> handleInputMessage(Message message) {
-
-        String inputText = message.getText();
-        long userId = message.getChat().getId();
-
-        switch (inputText) {
-            case "/start" -> userDataCache.setUsersCurrentBotState(userId, BotState.SHOW_MAIN_MENU);
-            case "/info" -> userDataCache.setUsersCurrentBotState(userId, BotState.SHOW_INFO_MENU);
-            default -> userDataCache.getUsersCurrentBotState(userId);
-        }
-
-        return botStateContext.processInputMessage(userDataCache.getUsersCurrentBotState(userId), message);
+        BotState botState = BotState.getBotStateMap().getOrDefault(message.getText(), userDataCache.getUsersCurrentBotState(message.getChat().getId()));
+        return botStateContext.processInputMessage(botState, message);
     }
 
 

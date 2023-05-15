@@ -9,8 +9,6 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.*;
 
-
-
 @Component
 public class BotStateContext {
 

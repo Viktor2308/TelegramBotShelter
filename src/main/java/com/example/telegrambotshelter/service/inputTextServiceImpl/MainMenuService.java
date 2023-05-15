@@ -1,10 +1,10 @@
 package com.example.telegrambotshelter.service.inputTextServiceImpl;
 
 
-import com.example.telegrambotshelter.entity.User;
+import com.example.telegrambotshelter.db.entity.User;
 import com.example.telegrambotshelter.service.ReplyTextService;
 import com.example.telegrambotshelter.service.locale.ReplyMessagesService;
-import com.example.telegrambotshelter.service.repositoryServiceImpl.UserService;
+import com.example.telegrambotshelter.db.DAO.UserDAOImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
@@ -27,11 +27,11 @@ import static com.example.telegrambotshelter.utils.Emojis.*;
 public class MainMenuService implements ReplyTextService {
 
     private final ReplyMessagesService replyMessagesService;
-    private final UserService userService;
+    private final UserDAOImpl userDAOImpl;
 
-    public MainMenuService(ReplyMessagesService replyMessagesService, UserService userService) {
+    public MainMenuService(ReplyMessagesService replyMessagesService, UserDAOImpl userDAOImpl) {
         this.replyMessagesService = replyMessagesService;
-        this.userService = userService;
+        this.userDAOImpl = userDAOImpl;
     }
 
     @Override
@@ -40,10 +40,10 @@ public class MainMenuService implements ReplyTextService {
         List<PartialBotApiMethod<Message>> mainMenuMessageList = new ArrayList<>();
 
 
-        if (!userService.existsByChatId(inputMessage.getChatId())) {
-            userService.add(new User(inputMessage.getChatId()));
+        if (!userDAOImpl.existsByChatId(inputMessage.getChatId())) {
+            userDAOImpl.add(new User(inputMessage.getChatId()));
             InputFile inputFile = new InputFile(
-                    new File("C:\\Users\\User\\Downloads\\TelegramBotShelter\\src\\main\\resources\\img\\mainMenu.png"));
+                    new File("src/main/resources/img/mainMenu.png"));
             SendPhoto sendPhoto = new SendPhoto(inputMessage.getChatId().toString(), inputFile);
             final SendMessage helloUserMessage =
                     new SendMessage(inputMessage.getChatId().toString(),

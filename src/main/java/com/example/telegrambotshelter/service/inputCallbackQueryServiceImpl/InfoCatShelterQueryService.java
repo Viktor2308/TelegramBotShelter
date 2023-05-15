@@ -28,7 +28,7 @@ public class InfoCatShelterQueryService implements ReplyCallbackQueryService {
     public List<PartialBotApiMethod<Message>> replayMessage(long chatId) {
         List<PartialBotApiMethod<Message>> partialBotApiMethodsList = new ArrayList<>();
         InputFile inputFile = new InputFile(
-                new File("C:\\Users\\User\\Downloads\\TelegramBotShelter\\src\\main\\resources\\img\\infoCatShelter.png"));
+                new File("src/main/resources/img/infoCatShelter.png"));
         partialBotApiMethodsList.add(new SendPhoto(Long.toString(chatId), inputFile));
         partialBotApiMethodsList.add(
                 new SendMessage(Long.toString(chatId)
