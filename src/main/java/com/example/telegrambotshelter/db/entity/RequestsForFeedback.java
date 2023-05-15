@@ -40,5 +40,6 @@ public class RequestsForFeedback {
         this.userName = userName;
         this.phoneNumber = phoneNumber;
         this.dateTime = LocalDateTime.now();
+        this.isActive = true;
     }
 }

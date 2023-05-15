@@ -4,8 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public enum BotState {
-    SHOW_MAIN_MENU("/SHOW_MAIN_MENU"),
-    SHOW_INFO_MENU("/SHOW_INFO_MENU"),
+    SHOW_MAIN_MENU("/start"),
+    SHOW_INFO_MENU("/info"),
     CALL_VOLUNTEER("/CALL_VOLUNTEER"),
     SHOW_CAT_SHELTER_MENU("/SHOW_CAT_SHELTER_MENU"),
     SHOW_DOG_SHELTER_MENU("/SHOW_DOG_SHELTER_MENU"),
@@ -36,7 +36,7 @@ public enum BotState {
         }
     }
 
-    private String state;
+    private final String state;
 
     BotState(String state) {
         this.state = state;

@@ -26,7 +26,7 @@ public class InfoService implements ReplyTextService {
     public List<PartialBotApiMethod<Message>> replayMessage(Message inputMessage) {
         List<PartialBotApiMethod<Message>> partialBotApiMethodsList = new ArrayList<>();
         InputFile inputFile = new InputFile(
-                new File("C:\\Users\\User\\Downloads\\TelegramBotShelter\\src\\main\\resources\\img\\infoBot.png"));
+                new File("src/main/resources/img/infoBot.png"));
         SendPhoto sendPhoto = new SendPhoto(inputMessage.getChatId().toString(), inputFile);
         SendMessage sendInfoMessage = new SendMessage(inputMessage.getChatId().toString(),
                 replyMessagesService.getEmojiReplyText("reply.info.message", ROBOT_FACE, MALE_STUDENT));

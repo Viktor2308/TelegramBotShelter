@@ -29,7 +29,7 @@ public class VolunteerQueryService implements ReplyCallbackQueryService {
     public List<PartialBotApiMethod<Message>> replayMessage(long chatId) {
         List<PartialBotApiMethod<Message>> partialBotApiMethodsList = new ArrayList<>();
         InputFile inputFile = new InputFile(
-                new File("C:\\Users\\User\\Downloads\\TelegramBotShelter\\src\\main\\resources\\img\\volunteer.png"));
+                new File("src/main/resources/img/volunteer.png"));
         SendPhoto sendPhoto = new SendPhoto(Long.toString(chatId), inputFile);
         SendMessage sendInfoMessage = new SendMessage(Long.toString(chatId),
                 replyMessagesService.getEmojiReplyText("reply.volunteer.message", BICYCLIST));
@@ -39,6 +39,4 @@ public class VolunteerQueryService implements ReplyCallbackQueryService {
         return partialBotApiMethodsList;
 
     }
-
-
 }

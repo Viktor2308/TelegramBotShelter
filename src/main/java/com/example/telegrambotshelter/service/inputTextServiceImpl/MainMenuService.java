@@ -43,7 +43,7 @@ public class MainMenuService implements ReplyTextService {
         if (!userDAOImpl.existsByChatId(inputMessage.getChatId())) {
             userDAOImpl.add(new User(inputMessage.getChatId()));
             InputFile inputFile = new InputFile(
-                    new File("C:\\Users\\User\\Downloads\\TelegramBotShelter\\src\\main\\resources\\img\\mainMenu.png"));
+                    new File("src/main/resources/img/mainMenu.png"));
             SendPhoto sendPhoto = new SendPhoto(inputMessage.getChatId().toString(), inputFile);
             final SendMessage helloUserMessage =
                     new SendMessage(inputMessage.getChatId().toString(),
